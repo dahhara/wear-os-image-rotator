@@ -18,6 +18,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.painterResource
 import androidx.wear.compose.material.MaterialTheme
 import com.example.imagerotator.R
+
 @Composable
 fun RotateImage(
     modifier: Modifier = Modifier,
