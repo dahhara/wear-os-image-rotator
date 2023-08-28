@@ -13,6 +13,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.painterResource
@@ -40,9 +41,8 @@ fun RotateAnimation(
     modifier: Modifier,
     speedLevel: Int
 ) {
-    val currentRotation by remember { mutableStateOf(0f) }
+    var currentRotation by remember { mutableStateOf(0f) }
     val rotation = remember { Animatable(currentRotation) }
-
     LaunchedEffect(speedLevel) {
         if (speedLevel != 0) {
             rotation.animateTo(
@@ -54,7 +54,9 @@ fun RotateAnimation(
                     ),
                     repeatMode = RepeatMode.Restart
                 )
-            )
+            ) {
+                currentRotation = value
+            }
         }
     }
 
