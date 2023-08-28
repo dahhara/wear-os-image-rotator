@@ -18,6 +18,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.painterResource
 import androidx.wear.compose.material.MaterialTheme
 import com.example.imagerotator.R
+import java.lang.StrictMath.abs
 
 @Composable
 fun RotateImage(
@@ -37,22 +38,24 @@ fun RotateImage(
 @Composable
 fun RotateAnimation(
     modifier: Modifier,
-    changeAmount: Float
+    speedLevel: Int
 ) {
     val currentRotation by remember { mutableStateOf(0f) }
     val rotation = remember { Animatable(currentRotation) }
 
-    LaunchedEffect(changeAmount != 0f) {
-        rotation.animateTo(
-            targetValue = changeAmount + 360f,
-            animationSpec = infiniteRepeatable(
-                animation = tween(
-                    durationMillis = 1000,
-                    easing = LinearEasing
-                ),
-                repeatMode = RepeatMode.Restart
+    LaunchedEffect(speedLevel) {
+        if (speedLevel != 0) {
+            rotation.animateTo(
+                targetValue = currentRotation + if (speedLevel > 0) 360f else -360f,
+                animationSpec = infiniteRepeatable(
+                    animation = tween(
+                        durationMillis = 10000 / abs(speedLevel),
+                        easing = LinearEasing
+                    ),
+                    repeatMode = RepeatMode.Restart
+                )
             )
-        )
+        }
     }
 
     RotateImage(modifier = modifier, rotationDegrees = rotation.value)
