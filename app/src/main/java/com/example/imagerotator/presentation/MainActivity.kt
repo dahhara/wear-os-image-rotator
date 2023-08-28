@@ -13,6 +13,7 @@ import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -22,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.imagerotator.presentation.components.RotateAnimation
 import com.example.imagerotator.presentation.viewmodel.currentDegrees
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
 
@@ -37,18 +39,23 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun AppScreen(modifier: Modifier = Modifier) {
     val focusRequester: FocusRequester = remember { FocusRequester() }
+    val coroutineScope = rememberCoroutineScope()
 
     RotateAnimation(
         modifier = modifier
             .fillMaxSize()
             .onRotaryScrollEvent {
-                println("Rotary event: $it")
+                coroutineScope.launch {
+                    println("Rotary event: $it")
+                }
                 true
             }
-            .focusRequester(focusRequester = focusRequester)
+            .focusRequester(focusRequester)
             .focusable(),
         changeAmount = currentDegrees
     )
+
+    focusRequester.requestFocus()
 }
 
 @Preview(device = Devices.WEAR_OS_SMALL_ROUND, showSystemUi = true)

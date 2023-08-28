@@ -21,7 +21,7 @@ import com.example.imagerotator.R
 
 @Composable
 fun RotateImage(
-    modifier: Modifier = Modifier,
+    modifier: Modifier,
     rotationDegrees: Float = 0f
 ) {
     Image(
@@ -36,7 +36,7 @@ fun RotateImage(
 
 @Composable
 fun RotateAnimation(
-    modifier: Modifier = Modifier,
+    modifier: Modifier,
     changeAmount: Float
 ) {
     val currentRotation by remember { mutableStateOf(0f) }
