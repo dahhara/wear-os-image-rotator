@@ -10,17 +10,20 @@ class RotaryScrollViewModel : ViewModel() {
     fun onRotaryChangeSpeed(pixels: Float) {
         currentSpeed.value = when {
             pixels <= ROTARY_PLAY && pixels >= -ROTARY_PLAY -> {
-             // ignore small change by rotary input
+                // ignore small change by rotary input
                 currentSpeed.value
             }
+
             pixels > ROTARY_PLAY -> {
                 val positiveSpeed = min(currentSpeed.value + SPEED_STEP, MAX_SPEED)
                 if (positiveSpeed < 0) 0 else positiveSpeed
             }
+
             pixels < -ROTARY_PLAY -> {
                 val negativeSpeed = max(currentSpeed.value - SPEED_STEP, MIN_SPEED)
                 if (negativeSpeed > 0) 0 else negativeSpeed
             }
+
             else -> currentSpeed.value
         }
     }
